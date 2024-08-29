@@ -1,9 +1,11 @@
-import * as React from "react";
+"use client";
+import React from "react";
 
 interface ProvidersProps {
   children: React.ReactNode;
 }
 
 export function Providers({ children }: ProvidersProps) {
-  return <React.Fragment>{children}</React.Fragment>;
+
+  return <>{children}</>;
 }

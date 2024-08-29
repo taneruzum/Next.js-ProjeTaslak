@@ -26,11 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning={true} lang="en" className="scroll-smooth">
       <head />
       <body
         className={clsx(
-          "min-h-screen bg-rootBackground font-sans antialiased",
+          " bg-rootBackground font-sans antialiased",
           fontSans.variable,
         )}
       >

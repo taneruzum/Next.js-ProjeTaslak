@@ -7,7 +7,6 @@ This template is designed for creating applications using Next.js 14 (app direct
 - [Next.js 14](https://nextjs.org/docs/getting-started)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
 - [Axios](https://axios-http.com/)
 - [clsx](https://github.com/lukeed/clsx)
 
@@ -18,10 +17,18 @@ This template is designed for creating applications using Next.js 14 (app direct
 - [@types/react-scroll](https://www.npmjs.com/package/@types/react-scroll)
 - [json-server] npm install -g json-server@0.17.4
 
+### NOTE
+When you download the project, make sure to delete the following files or directories:
+
+- test folder
+- db folder
+- freeimage inside public
+
 ```bash
 npm i typescript-cookie
 npm install --save @types/react-scroll
 npm i react-scroll
+
 
 
 ### License
