@@ -17,13 +17,6 @@ This template is designed for creating applications using Next.js 14 (app direct
 - [@types/react-scroll](https://www.npmjs.com/package/@types/react-scroll)
 - [json-server] npm install -g json-server@0.17.4
 
-### NOTE
-When you download the project, make sure to delete the following files or directories:
-
-- test folder
-- db folder
-- freeimage inside public
-
 ```bash
 npm i typescript-cookie
 npm install --save @types/react-scroll

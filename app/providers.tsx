@@ -6,6 +6,5 @@ interface ProvidersProps {
 }
 
 export function Providers({ children }: ProvidersProps) {
-
   return <>{children}</>;
 }

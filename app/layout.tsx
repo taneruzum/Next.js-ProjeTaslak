@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
+import { fontSans, fontPoppins } from "@/config/fonts";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 
@@ -26,12 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning={true} lang="en" className="scroll-smooth">
+    <html className="scroll-smooth" lang="en" suppressHydrationWarning={true}>
       <head />
       <body
         className={clsx(
-          " bg-rootBackground font-sans antialiased",
+          "bg-rootBackground font-sans antialiased",
           fontSans.variable,
+          fontPoppins.variable,
         )}
       >
         <Providers>

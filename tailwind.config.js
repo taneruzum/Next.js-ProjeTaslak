@@ -7,22 +7,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "poppins": ["var(--font-poppins)"]
+      },
       colors: {
         rootBackground: '#ffffff',
-
-        dark1: '#1a1a1a',
-        dark2: '#333333',
-
-        purp: '#6300ff',
-        gold1: '#FFE002',
-        gold2: '#FFB606',
-        amber: '#ff7e00',
-
-        //ExamplePalette
-        customDark: '#121212',
-        customDark2: '#2A2A2A',
-        customGold: '#ffc107',
-
       },
       screens: {
         'xs': '400px',
@@ -33,5 +22,5 @@ module.exports = {
       },
     },
   },
-  darkMode: "class",
+  darkMode: "selector",
 }
