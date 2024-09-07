@@ -17,13 +17,20 @@ This template is designed for creating applications using Next.js 14 (app direct
 - [@types/react-scroll](https://www.npmjs.com/package/@types/react-scroll)
 - [json-server] npm install -g json-server@0.17.4
 
-```bash
-npm i typescript-cookie
-npm install --save @types/react-scroll
-npm i react-scroll
+## Note
 
-
+``
+CSS For DarkLight Theme
+*{
+    @apply transition-colors duration-300
+}``
 
 ### License
 
 Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+
+
+```bash
+npm i typescript-cookie
+npm install --save @types/react-scroll
+npm i react-scroll
