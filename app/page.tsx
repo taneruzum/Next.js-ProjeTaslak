@@ -1,9 +1,8 @@
-"use client";
 import React from "react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center gap-10 py-8 md:py-10">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center gap-10 bg-red-400">
       Home Content
     </div>
   );

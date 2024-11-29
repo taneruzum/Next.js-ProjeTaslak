@@ -5,7 +5,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full h-screen flex items-center justify-center !bg-[#ffffff] inset-0">
+    <div className="w-full min-h-screen flex items-center justify-center !bg-[#ffffff] inset-0">
       {children}
     </div>
   );
