@@ -1,7 +1,6 @@
-/** Google fontlar en üste import edilmeli */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+/** Google fontları RootLayout'da head kısmında link stylesheet olarak eklenebilir, daha iyisi fonts.ts dosyasında örneği var.*/
 
-/** Özel font eklenmek istenirse */
+/** Dışarıdan dosya ile özel font eklenmek istenirse */
 /* @font-face {
   font-family: Oswald;
   font-style: normal;
@@ -13,6 +12,8 @@
 
 @import "tailwindcss";
 
+
+/** theme kısmında var olan tailwind sınıflarının özelliklerinideğiştirebilirsin */
 @theme {
   --font-customName: "Open Sans", sans-serif;
 
@@ -20,5 +21,16 @@
   --breakpoint-3xl: 1920px;
   --breakpoint-4xl: 2560px;
 
-  --color-rootBackground: #ffffff;
+}
+
+:root {
+  --generalBlack: #000000;
+  --generalWhite: #ffffff;
+
+   --color-rootBackground: #d6d6d6;
+}
+@theme inline {
+  --color-generalBlack: var(--generalBlack);
+  --color-generalWhite: var(--generalWhite);
+  --color-rootBackground: var(--color-rootBackground);
 }

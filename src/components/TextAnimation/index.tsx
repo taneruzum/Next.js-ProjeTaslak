@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import useIntersectionObserver from "@/hooks/interSection";
+import useIntersectionObserver from "@/src/hooks/interSection";
 
 type LazyTextProps = {
   children: React.ReactNode;
@@ -32,11 +32,10 @@ const LazyText: React.FC<LazyTextProps> = ({
   const renderChildrenWithDelay = () => {
     return React.Children.map(children, (child, index) => (
       <div
-        className={`transition-all duration-1000 ${
-          isVisible
+        className={`transition-all duration-1000 ${isVisible
             ? "opacity-100 translate-y-0"
             : `opacity-0 ${animationClasses[animationStart]}`
-        }`}
+          }`}
         style={{ transitionDelay: `${index * staggerDelay}ms` }}
       >
         {child}

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
 
-import useIntersectionObserver from "@/hooks/interSection";
+import useIntersectionObserver from "@/src/hooks/interSection";
 
 type LazyImageProps = {
   src: string | StaticImageData;
@@ -26,11 +26,11 @@ const LazyImage: React.FC<LazyImageProps> = ({
   const [ref, isVisible, isLoading, setLoading] = useIntersectionObserver({
     threshold,
   }) as [
-    React.MutableRefObject<HTMLDivElement | null>,
-    boolean,
-    boolean,
-    (loading: boolean) => void,
-  ];
+      React.MutableRefObject<HTMLDivElement | null>,
+      boolean,
+      boolean,
+      (loading: boolean) => void,
+    ];
   const [isLoaded, setIsLoaded] = useState(false);
 
   const handleImageLoad = () => {

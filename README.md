@@ -1,10 +1,10 @@
 # Next.js Template
 
-This template is designed for creating applications using Next.js 14 (app directory) and NextUI (v2).
+This template is designed for creating applications using Next.js 15 (src/app directory).
 
 ## Technologies Used
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
+- [Next.js 15](https://nextjs.org/docs/getting-started)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Axios](https://axios-http.com/)
