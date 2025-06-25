@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function checkAuthMiddleware(
-  req: NextRequest
+  req: NextRequest,
 ): NextResponse | undefined {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("token")?.value;

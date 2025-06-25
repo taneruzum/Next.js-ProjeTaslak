@@ -1,69 +1,116 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+
+import API_ENDPOINTS from "./endpoints";
 
 // Genel yapılandırma türü
-type RequestOptions = {
-  baseURL?: string; // Opsiyonel, farklı API'ler için temel URL
-  url: string; // İstek yapılan endpoint
-  method?: "GET" | "POST" | "PUT" | "DELETE"; // HTTP metodları
-  data?: any; // Gönderilecek veri (POST, PUT için)
-  headers?: Record<string, string>; // Özelleştirilebilir headers
-  timeout?: number; // Zaman aşımı süresi
-};
+interface RequestOptions<T = any> {
+  url: string;
+  method?: "GET" | "POST" | "PUT" | "DELETE";
+  data?: T;
+  headers?: Record<string, string>;
+  timeout?: number;
+  pathToken?: string; // For path parameters
+}
 
-// Data Request (GET, POST, PUT, DELETE)
-export const makeRequest = async ({
-  baseURL = "http://localhost:4000/",
-  url,
-  method = "POST", // Varsayılan olarak POST
-  data = {},
-  headers = {
+// Axios instance oluşturma
+const apiClient: AxiosInstance = axios.create({
+  baseURL: API_ENDPOINTS.BASE_URL,
+  timeout: 12000,
+  headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
-  timeout = 5000, // Varsayılan olarak 5 saniye
-}: RequestOptions): Promise<any> => {
-  const config: AxiosRequestConfig = {
-    baseURL,
-    url,
-    method,
-    headers,
-    data,
-    timeout,
-  };
+});
 
-  try {
-    const response: AxiosResponse<any> = await axios(config);
+// Hata yönetimi
+const handleError = (error: any): never => {
+  console.error("API Error Details:", {
+    config: error.config,
+    response: error.response
+      ? {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          data: error.response.data,
+        }
+      : null,
+    message: error.message,
+  });
 
-    if (response.status >= 200 && response.status < 300) {
-      return response.data;
-    } else {
-      throw new Error(`HTTP Hatası: ${response.status}`);
-    }
-  } catch (error: any) {
-    if (error.response) {
-      throw error.response.data || error.message;
-    } else if (error.request) {
-      throw new Error(
-        "Sunucuya ulaşılamıyor. Lütfen internet bağlantınızı kontrol edin.",
-      );
-    } else {
-      throw new Error(`Bir hata oluştu: ${error.message}`);
+  const resData = error.response?.data;
+
+  if (error.response) {
+    switch (error.response.status) {
+      case 400:
+        if (resData?.errors) throw error;
+        if (resData?.message) throw new Error(resData.message);
+        if (resData?.title) throw new Error(resData.title);
+        throw new Error("Bad Request: Please check your input data.");
+
+      case 401:
+        throw new Error("Unauthorized: Please login again.");
+
+      case 403:
+        throw new Error(resData?.message || "Forbidden: No permission.");
+
+      case 405:
+        throw new Error("Method Not Allowed: Unsupported operation.");
+
+      default:
+        throw new Error(
+          resData?.message || `HTTP Error: ${error.response.status}`
+        );
     }
   }
+
+  if (error.request) {
+    throw new Error(
+      "Cannot reach server. Please check your internet connection."
+    );
+  }
+
+  throw new Error(`Unknown error: ${error.message}`);
 };
 
-// Kullanım örneği
-// const sendRequest = async () => {
-//     try {
-//         const result = await makeRequest({
-//             url: 'posts',
-//             method: 'POST',
-//             data: { id: '2', title: "Test2", author: "Taner" },
-//         });
-//         console.log('Yanıt:', result);
-//     } catch (error) {
-//         console.error('İstek sırasında bir hata oluştu:', error);
-//     }
-// };
+// Genel istek fonksiyonu
+export const makeRequest = async <T = any>({
+  url,
+  method = "POST",
+  data,
+  headers = {},
+  timeout,
+  pathToken,
+}: RequestOptions): Promise<T & { _status: number }> => {
+  try {
+    const requestHeaders = { ...headers };
 
-// sendRequest();
+    // Content-Type ayarı
+    if (method !== "GET" && data) {
+      requestHeaders["Content-Type"] =
+        typeof data === "string" ? "text/plain" : "application/json";
+    }
+
+    // pathToken varsa URL'ye ekle
+    let finalUrl = url;
+
+    if (pathToken) {
+      finalUrl = `${url}/${encodeURIComponent(pathToken)}`;
+    }
+
+    const config: AxiosRequestConfig = {
+      url: finalUrl,
+      method,
+      data,
+      headers: requestHeaders,
+      timeout,
+    };
+
+    const response: AxiosResponse<T> = await apiClient.request<T>(config);
+
+    return {
+      ...response.data,
+      _status: response.status,
+    };
+  } catch (error) {
+    return Promise.reject(handleError(error));
+  }
+};
