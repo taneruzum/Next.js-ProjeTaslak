@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { checkAuthMiddleware } from "./middlewares/checkAuthMiddleware";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const response = checkAuthMiddleware(req);
 
   if (response) return response;
