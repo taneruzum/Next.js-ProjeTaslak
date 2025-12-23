@@ -1,28 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 
-export function checkAuthMiddleware(
-  req: NextRequest,
-): NextResponse | undefined {
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+export async function checkAuthMiddleware(req: NextRequest) {
+  const token = req.cookies.get("TOKEN_NAME")?.value;
   const { pathname } = req.nextUrl;
-  const token = req.cookies.get("token")?.value;
-  //const adminToken = req.cookies.get("excury-admin-access")?.value;
 
-  const isUserProtectedPage = pathname.startsWith("/user");
-  const isAdminProtectedPage = pathname.startsWith("/admin");
-
-  if (!token && isUserProtectedPage) {
-    return NextResponse.redirect(new URL("/auth/signin", req.nextUrl.origin));
+  // Login olmuş kullanıcı /login'e giremez
+  if (pathname === "/login" && token) {
+    try {
+      await jwtVerify(token, secret);
+      return NextResponse.redirect(new URL("/admin", req.url));
+    } catch {
+      // token geçersiz → login açık kalsın
+    }
   }
 
-  // if (!adminToken && isAdminProtectedPage) {
-  //   return NextResponse.redirect(new URL("/", req.nextUrl.origin));
-  // }
+  // Admin koruması
+  if (pathname.startsWith("/admin")) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
 
-  //   if (token && pathname === "/") {
-  //     return NextResponse.redirect(
-  //       new URL("/user/dashboard", req.nextUrl.origin),
-  //     );
-  //   }
+    try {
+      await jwtVerify(token, secret);
+      return NextResponse.next();
+    } catch {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
 
-  return undefined;
+  return NextResponse.next();
 }

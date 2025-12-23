@@ -31,7 +31,7 @@ export default function RootLayout({
       <head />
       <body className="bg-rootBackground font-sans antialiased">
         <Providers>
-          <main className="w-full min-h-dvh h-full px-4 flex-grow">
+          <main className="w-full min-h-dvh h-full px-4 grow">
             {children}
           </main>
         </Providers>
